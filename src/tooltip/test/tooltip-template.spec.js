@@ -75,5 +75,22 @@ describe('tooltip template', function() {
     expect( elmBody.children().length ).toBe( 1 );
   }));
 
+  it('should open when templateUrl is specified as a string literal rather than an expression - issue 3852', inject(function($compile) {
+    elmBody = angular.element(
+      '<div><span tooltip-template="myUrl">Selector Text</span></div>'
+    );
+    $compile(elmBody)(scope);
+    scope.$digest();
+    elm = elmBody.find('span');
+    elmScope = elm.scope();
+    tooltipScope = elmScope.$$childTail;
+
+    
+    elm.trigger( 'mouseenter' );
+
+    expect( tooltipScope.isOpen ).toBe( true );
+    expect( elmBody.children().length ).toBe( 2 );
+  }));
+
 });
 

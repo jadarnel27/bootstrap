@@ -65,7 +65,7 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
    * Returns the actual instance of the $tooltip service.
    * TODO support multiple triggers
    */
-  this.$get = [ '$window', '$compile', '$timeout', '$document', '$position', '$interpolate', function ( $window, $compile, $timeout, $document, $position, $interpolate ) {
+  this.$get = [ '$window', '$compile', '$timeout', '$document', '$position', '$interpolate', '$templateCache', function ( $window, $compile, $timeout, $document, $position, $interpolate, $templateCache ) {
     return function $tooltip ( type, prefix, defaultTriggerShow, options ) {
       options = angular.extend( {}, defaultOptions, globalOptions, options );
 
@@ -278,7 +278,9 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
             }
 
             ttScope.contentExp = function () {
-              return scope.$eval(attrs[type]);
+              if (scope.$eval(attrs[type])) return scope.$eval(attrs[type]);
+              if ($templateCache.get(attrs[type])) return attrs[type];
+              return false;
             };
 
             /**
