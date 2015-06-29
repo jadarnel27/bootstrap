@@ -278,8 +278,14 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
             }
 
             ttScope.contentExp = function () {
-              if (scope.$eval(attrs[type])) return scope.$eval(attrs[type]);
-              if ($templateCache.get(attrs[type])) return attrs[type];
+              if (scope.$eval(attrs[type])) {
+                return scope.$eval(attrs[type]);
+              }
+              
+              if ($templateCache.get(attrs[type])) {
+                return attrs[type];
+              }
+
               return false;
             };
 
